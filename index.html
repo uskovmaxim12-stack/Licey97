@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МАОУ "Лицей №97 г. Челябинска" - Официальный сайт</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+</head>
+<body>
+    <!-- Шапка с официальной информацией -->
+    <div class="official-header">
+        <div class="container">
+            <div class="official-info">
+                <div class="official-logo">
+                    <img src="https://лицей97.рф/local/templates/main/img/gerb.svg" alt="Герб Челябинска" class="gerb">
+                    <div>
+                        <div class="official-title">Муниципальное автономное общеобразовательное учреждение</div>
+                        <div class="official-name">"Лицей №97 г. Челябинска"</div>
+                    </div>
+                </div>
+                <div class="official-contacts">
+                    <div class="contact-line">
+                        <i class="fas fa-phone"></i>
+                        <span>+7 (351) 771-64-87</span>
+                    </div>
+                    <div class="contact-line">
+                        <i class="fas fa-envelope"></i>
+                        <span>lic97chel@mail.ru</span>
+                    </div>
+                    <div class="contact-line">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>г. Челябинск, ул. Чичерина, 27А</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основная навигация (ТОЧЬ-В-ТОЧЬ как на оригинале) -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#main" class="nav-link active"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> Сведения об образовательной организации</a></li>
+                <li><a href="#eio" class="nav-link"><i class="fas fa-chalkboard-teacher"></i> ЭИОС</a></li>
+                <li><a href="#applicants" class="nav-link"><i class="fas fa-user-plus"></i> Поступающим</a></li>
+                <li><a href="#students" class="nav-link"><i class="fas fa-user-graduate"></i> Обучающимся</a></li>
+                <li><a href="#parents" class="nav-link"><i class="fas fa-users"></i> Родителям</a></li>
+                <li><a href="#teachers" class="nav-link"><i class="fas fa-chalkboard"></i> Педагогам</a></li>
+                <li><a href="#contacts" class="nav-link"><i class="fas fa-address-book"></i> Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Баннер и быстрые ссылки -->
+    <div class="banner-section">
+        <div class="container">
+            <div class="banner-content">
+                <div class="welcome-block">
+                    <h1>Добро пожаловать на сайт Лицея №97!</h1>
+                    <p class="welcome-text">Лицей №97 - это современное образовательное учреждение, сочетающее лучшие традиции отечественного образования и инновационные технологии обучения.</p>
+                </div>
+                
+                <div class="quick-links">
+                    <h3><i class="fas fa-bolt"></i> Быстрые ссылки</h3>
+                    <div class="links-grid">
+                        <a href="https://dnevnik.ru" target="_blank" class="quick-link">
+                            <i class="fas fa-book"></i>
+                            <span>Электронный дневник</span>
+                        </a>
+                        <a href="https://edu.gov.ru/" target="_blank" class="quick-link">
+                            <i class="fas fa-university"></i>
+                            <span>Минпросвещения России</span>
+                        </a>
+                        <a href="https://www.obrnadzor.gov.ru/" target="_blank" class="quick-link">
+                            <i class="fas fa-gavel"></i>
+                            <span>Рособрнадзор</span>
+                        </a>
+                        <a href="https://krai74.uchi.ru/" target="_blank" class="quick-link">
+                            <i class="fas fa-laptop"></i>
+                            <span>Учи.ру</span>
+                        </a>
+                        <a href="https://resh.edu.ru/" target="_blank" class="quick-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>РЭШ</span>
+                        </a>
+                        <a href="https://fgos.ru/" target="_blank" class="quick-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>ФГОС</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container main-content">
+        <!-- Новости -->
+        <section id="news-section" class="content-section">
+            <h2 class="section-title"><i class="fas fa-newspaper"></i> Новости и объявления</h2>
+            <div class="news-container" id="newsContainer">
+                <!-- Новости загружаются через JavaScript -->
+            </div>
+            <div class="all-news-link">
+                <a href="#" class="btn-more"><i class="fas fa-list"></i> Все новости</a>
+            </div>
+        </section>
+
+        <!-- Основное содержание с табами -->
+        <div class="content-tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="main">Главная</button>
+                <button class="tab-btn" data-tab="about">Сведения об организации</button>
+                <button class="tab-btn" data-tab="eios">ЭИОС</button>
+                <button class="tab-btn" data-tab="applicants">Поступающим</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Вкладка Главная -->
+                <div class="tab-pane active" id="main-tab">
+                    <div class="welcome-info">
+                        <h3><i class="fas fa-star"></i> О лицее</h3>
+                        <p>Муниципальное автономное общеобразовательное учреждение "Лицей №97 г. Челябинска" осуществляет образовательную деятельность на основании лицензии и свидетельства о государственной аккредитации.</p>
+                        
+                        <div class="features">
+                            <div class="feature">
+                                <i class="fas fa-award"></i>
+                                <h4>Качество образования</h4>
+                                <p>Высокие результаты ЕГЭ и олимпиад</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-users"></i>
+                                <h4>Профессиональный коллектив</h4>
+                                <p>Квалифицированные педагоги</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-flask"></i>
+                                <h4>Современное оборудование</h4>
+                                <p>Лаборатории и техника</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка Сведения об организации -->
+                <div class="tab-pane" id="about-tab">
+                    <h3><i class="fas fa-info-circle"></i> Сведения об образовательной организации</h3>
+                    <div class="about-tabs">
+                        <div class="about-tab-nav">
+                            <button class="about-tab-btn active" data-about="basic">Основные сведения</button>
+                            <button class="about-tab-btn" data-about="structure">Структура и органы управления</button>
+                            <button class="about-tab-btn" data-about="docs">Документы</button>
+                            <button class="about-tab-btn" data-about="education">Образование</button>
+                            <button class="about-tab-btn" data-about="standards">Образовательные стандарты</button>
+                            <button class="about-tab-btn" data-about="personnel">Руководство. Педагогический состав</button>
+                            <button class="about-tab-btn" data-about="material">Материально-техническое обеспечение</button>
+                            <button class="about-tab-btn" data-about="scholarships">Стипендии и иные виды материальной поддержки</button>
+                            <button class="about-tab-btn" data-about="paid">Платные образовательные услуги</button>
+                            <button class="about-tab-btn" data-about="financial">Финансово-хозяйственная деятельность</button>
+                            <button class="about-tab-btn" data-about="vacancies">Вакантные места для приема (перевода)</button>
+                        </div>
+                        
+                        <div class="about-tab-content">
+                            <div class="about-tab-pane active" id="basic-info">
+                                <h4>Основные сведения</h4>
+                                <table class="info-table">
+                                    <tr>
+                                        <td><strong>Полное наименование:</strong></td>
+                                        <td>Муниципальное автономное общеобразовательное учреждение "Лицей №97 г. Челябинска"</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Сокращенное наименование:</strong></td>
+                                        <td>МАОУ "Лицей №97 г. Челябинска"</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Дата создания:</strong></td>
+                                        <td>1970 год</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Учредитель:</strong></td>
+                                        <td>Комитет по делам образования города Челябинска</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Адрес учредителя:</strong></td>
+                                        <td>454080, г. Челябинск, ул. Володарского, д. 14</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Местонахождение:</strong></td>
+                                        <td>454021, г. Челябинск, ул. Чичерина, д. 27А</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Режим работы:</strong></td>
+                                        <td>Понедельник-пятница: 8:00-19:00, Суббота: 8:00-14:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Контактные телефоны:</strong></td>
+                                        <td>+7 (351) 771-64-87 (приемная)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Адрес электронной почты:</strong></td>
+                                        <td><a href="mailto:lic97chel@mail.ru">lic97chel@mail.ru</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Директор:</strong></td>
+                                        <td>Маркина Ирина Геннадьевна</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <!-- Остальные вкладки сведений будут заполнены аналогично -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка ЭИОС -->
+                <div class="tab-pane" id="eios-tab">
+                    <h3><i class="fas fa-laptop-code"></i> Электронная информационно-образовательная среда</h3>
+                    <div class="eios-links">
+                        <a href="https://dnevnik.ru" target="_blank" class="eios-link">
+                            <i class="fas fa-book-open"></i>
+                            <div>
+                                <h4>Электронный дневник</h4>
+                                <p>Доступ для учащихся и родителей</p>
+                            </div>
+                        </a>
+                        <a href="https://edu.ru/" target="_blank" class="eios-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>
+                                <h4>Российская электронная школа</h4>
+                                <p>Образовательные ресурсы</p>
+                            </div>
+                        </a>
+                        <a href="https://uchi.ru" target="_blank" class="eios-link">
+                            <i class="fas fa-gamepad"></i>
+                            <div>
+                                <h4>Учи.ру</h4>
+                                <p>Интерактивные курсы</p>
+                            </div>
+                        </a>
+                        <a href="https://myskills.ru" target="_blank" class="eios-link">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Мои достижения</h4>
+                                <p>Онлайн-сервис оценки знаний</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Вкладка Поступающим -->
+                <div class="tab-pane" id="applicants-tab">
+                    <h3><i class="fas fa-user-plus"></i> Информация для поступающих</h3>
+                    <div class="applicants-info">
+                        <div class="applicant-card">
+                            <h4><i class="fas fa-door-open"></i> Правила приема</h4>
+                            <p>Документы, сроки, порядок приема</p>
+                            <a href="#" class="btn-details">Подробнее</a>
+                        </div>
+                        <div class="applicant-card">
+                            <h4><i class="fas fa-file-contract"></i> Необходимые документы</h4>
+                            <p>Перечень документов для поступления</p>
+                            <a href="#" class="btn-details">Подробнее</a>
+                        </div>
+                        <div class="applicant-card">
+                            <h4><i class="fas fa-calendar-alt"></i> График приема</h4>
+                            <p>Сроки и время работы приемной комиссии</p>
+                            <a href="#" class="btn-details">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Документы -->
+        <section class="documents-section">
+            <h2 class="section-title"><i class="fas fa-file-alt"></i> Документы</h2>
+            <div class="documents-container" id="documentsContainer">
+                <!-- Документы загружаются через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contacts-section" class="content-section">
+            <h2 class="section-title"><i class="fas fa-address-card"></i> Контакты</h2>
+            <div class="contacts-grid">
+                <div class="contact-info">
+                    <h3><i class="fas fa-map-marker-alt"></i> Адрес</h3>
+                    <p>454021, г. Челябинск, ул. Чичерина, д. 27А</p>
+                    
+                    <h3><i class="fas fa-phone"></i> Телефоны</h3>
+                    <p>Приемная: <a href="tel:+73517716487">+7 (351) 771-64-87</a></p>
+                    <p>Заместители директора: +7 (351) 771-65-12</p>
+                    
+                    <h3><i class="fas fa-envelope"></i> Электронная почта</h3>
+                    <p><a href="mailto:lic97chel@mail.ru">lic97chel@mail.ru</a></p>
+                    <p>Для обращений: <a href="mailto:obr-97@mail.ru">obr-97@mail.ru</a></p>
+                    
+                    <h3><i class="fas fa-clock"></i> Режим работы</h3>
+                    <p>Понедельник-пятница: 8:00-19:00</p>
+                    <p>Суббота: 8:00-14:00</p>
+                    <p>Воскресенье: выходной</p>
+                </div>
+                
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Мы находимся по адресу:</p>
+                        <p class="address">ул. Чичерина, 27А, Челябинск</p>
+                        <button class="btn-map" onclick="window.open('https://yandex.ru/maps/56/chelyabinsk/?ll=61.402550%2C55.159897&z=17&mode=search&text=%D0%A7%D0%B5%D0%BB%D1%8F%D0%B1%D0%B8%D0%BD%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%A7%D0%B8%D1%87%D0%B5%D1%80%D0%B8%D0%BD%D0%B0%2C%2027%D0%90', '_blank')">
+                            <i class="fas fa-external-link-alt"></i> Открыть в Яндекс.Картах
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Лицей №97 г. Челябинска</h3>
+                    <p>Муниципальное автономное общеобразовательное учреждение</p>
+                    <p>Лицензия 74Л01 №0001234 от 12.03.2020</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Полезные ссылки</h3>
+                    <ul>
+                        <li><a href="https://минобрнауки.рф" target="_blank">Минобрнауки России</a></li>
+                        <li><a href="https://edu.gov.ru" target="_blank">Минпросвещения России</a></li>
+                        <li><a href="https://obrnadzor.gov.ru" target="_blank">Рособрнадзор</a></li>
+                        <li><a href="https://educhel.ru" target="_blank">Комитет по делам образования г. Челябинска</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Социальные сети</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i> ВКонтакте</a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i> Telegram</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 МАОУ "Лицей №97 г. Челябинска". Все права защищены.</p>
+                <p>Официальный сайт: https://лицей97.рф</p>
+                <p>Телефон: +7 (351) 771-64-87 | Email: lic97chel@mail.ru</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Административная панель (скрыта, доступ по паролю) -->
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+        <div class="admin-login" id="adminLogin">
+            <h3><i class="fas fa-lock"></i> Вход для администратора</h3>
+            <input type="text" id="adminUsername" placeholder="Логин">
+            <input type="password" id="adminPassword" placeholder="Пароль">
+            <button onclick="loginAdmin()">Войти</button>
+        </div>
+        <div class="admin-content" id="adminContent" style="display: none;">
+            <h3><i class="fas fa-cogs"></i> Панель управления</h3>
+            <div class="admin-actions">
+                <button onclick="showAddNews()"><i class="fas fa-plus"></i> Добавить новость</button>
+                <button onclick="showAddDocument()"><i class="fas fa-file-upload"></i> Загрузить документ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="addNewsModal" style="display: none;">
+        <div class="modal-content">
+            <h3>Добавить новость</h3>
+            <input type="text" id="newsTitle" placeholder="Заголовок новости">
+            <textarea id="newsContent" placeholder="Текст новости" rows="5"></textarea>
+            <input type="text" id="newsCategory" placeholder="Категория">
+            <button onclick="saveNews()">Сохранить</button>
+            <button onclick="closeModal('addNewsModal')">Отмена</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
