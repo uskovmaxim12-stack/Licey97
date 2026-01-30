@@ -1,234 +1,364 @@
-// Основной JavaScript файл для сайта
+// Главный JavaScript файл для сайта лицея
 
 class LyceumWebsite {
     constructor() {
-        this.currentTab = 'main';
-        this.apiBase = 'http://localhost:3000/api';
+        this.currentTab = 'structure';
+        this.newsLoaded = false;
         this.init();
     }
 
     init() {
-        this.setupEventListeners();
-        this.loadNews();
-        this.loadDocuments();
-        this.setupAdminPanel();
+        this.setupMobileMenu();
+        this.setupNavigation();
+        this.setupTabs();
+        this.setupForms();
+        this.setupModals();
+        this.setupScroll();
+        this.setupSchedule();
         this.updateDateTime();
     }
 
-    setupEventListeners() {
-        // Навигация по табам
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const tabId = e.target.dataset.tab;
-                this.switchTab(tabId);
+    // Мобильное меню
+    setupMobileMenu() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navigation = document.querySelector('.navigation');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navigation.classList.toggle('active');
+                menuToggle.innerHTML = navigation.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navigation.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
             });
         });
+    }
 
-        // Навигация по меню
+    // Плавная навигация
+    setupNavigation() {
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
-                this.scrollToSection(targetId);
+                const targetElement = document.getElementById(targetId);
                 
-                // Обновляем активную ссылку
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
-
-        // Обработка вкладок сведений
-        document.querySelectorAll('.about-tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const tabId = e.target.dataset.about;
-                this.switchAboutTab(tabId);
-            });
-        });
-
-        // Кнопка открытия админ-панели (Alt+A)
-        document.addEventListener('keydown', (e) => {
-            if (e.altKey && e.key === 'a') {
-                this.toggleAdminPanel();
-            }
-        });
-    }
-
-    switchTab(tabId) {
-        // Обновляем активную кнопку таба
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-        
-        // Показываем соответствующий контент
-        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-        document.querySelector(`#${tabId}-tab`).classList.add('active');
-        
-        this.currentTab = tabId;
-    }
-
-    switchAboutTab(tabId) {
-        // Обновляем активную кнопку вкладки сведений
-        document.querySelectorAll('.about-tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-about="${tabId}"]`).classList.add('active');
-        
-        // Показываем соответствующий контент
-        // Здесь можно добавить загрузку данных для каждой вкладки
-    }
-
-    async loadNews() {
-        try {
-            const response = await fetch(`${this.apiBase}/news`);
-            const news = await response.json();
-            this.renderNews(news);
-        } catch (error) {
-            console.error('Ошибка загрузки новостей:', error);
-            // Используем данные по умолчанию
-            this.renderNews([
-                {
-                    id: 1,
-                    date: '25.10.2023',
-                    title: 'Всероссийская олимпиада школьников',
-                    content: 'Стартует школьный этап Всероссийской олимпиады школьников.',
-                    category: 'Объявление'
+                if (targetElement) {
+                    // Обновляем активную ссылку
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Плавный скролл
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                 }
-            ]);
-        }
-    }
-
-    renderNews(news) {
-        const container = document.getElementById('newsContainer');
-        if (!container) return;
-
-        container.innerHTML = news.map(item => `
-            <div class="news-card">
-                <div class="news-date">${item.date} <span class="news-category">${item.category}</span></div>
-                <h3>${item.title}</h3>
-                <p>${item.content}</p>
-            </div>
-        `).join('');
-    }
-
-    async loadDocuments() {
-        try {
-            const response = await fetch(`${this.apiBase}/documents`);
-            const documents = await response.json();
-            this.renderDocuments(documents);
-        } catch (error) {
-            console.error('Ошибка загрузки документов:', error);
-        }
-    }
-
-    renderDocuments(documents) {
-        const container = document.getElementById('documentsContainer');
-        if (!container) return;
-
-        container.innerHTML = documents.map(doc => `
-            <div class="document-item">
-                <div class="document-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <div class="document-info">
-                    <h4>${doc.name}</h4>
-                    <div class="document-meta">
-                        <span>${doc.type}</span>
-                        <span>${doc.date}</span>
-                        <span>${doc.size}</span>
-                    </div>
-                </div>
-                <button class="download-btn" onclick="window.open('${doc.url}', '_blank')">
-                    <i class="fas fa-download"></i> Скачать
-                </button>
-            </div>
-        `).join('');
-    }
-
-    setupAdminPanel() {
-        // Проверяем, залогинен ли администратор
-        const token = localStorage.getItem('adminToken');
-        if (token) {
-            this.showAdminContent();
-        }
-    }
-
-    toggleAdminPanel() {
-        const panel = document.getElementById('adminPanel');
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    }
-
-    async loginAdmin() {
-        const username = document.getElementById('adminUsername').value;
-        const password = document.getElementById('adminPassword').value;
-
-        try {
-            const response = await fetch(`${this.apiBase}/admin/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
             });
+        });
+    }
 
-            const data = await response.json();
+    // Табы в разделе "Сведения"
+    setupTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                // Обновляем активную кнопку
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Показываем активную вкладку
+                tabPanes.forEach(pane => {
+                    pane.classList.remove('active');
+                    if (pane.id === tabId) {
+                        pane.classList.add('active');
+                    }
+                });
+                
+                this.currentTab = tabId;
+            });
+        });
+
+        // Табы расписания
+        const scheduleTabs = document.querySelectorAll('.schedule-tab');
+        scheduleTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const grade = tab.dataset.grade;
+                
+                // Обновляем активную вкладку
+                scheduleTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Здесь можно загружать расписание для выбранного класса
+                console.log(`Загружаем расписание для ${grade} классов`);
+            });
+        });
+    }
+
+    // Формы
+    setupForms() {
+        const feedbackForm = document.getElementById('feedbackForm');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(feedbackForm);
+                const data = Object.fromEntries(formData);
+                
+                // Здесь будет отправка на сервер
+                // Временно показываем уведомление
+                this.showNotification('Сообщение отправлено! Мы ответим вам в ближайшее время.', 'success');
+                feedbackForm.reset();
+            });
+        }
+    }
+
+    // Модальные окна
+    setupModals() {
+        const modal = document.getElementById('documentsModal');
+        const closeBtn = document.querySelector('.modal-close');
+        
+        // Закрытие модального окна
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+        }
+        
+        // Закрытие по клику на фон
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+        
+        // Закрытие по ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+    }
+
+    // Показать документы
+    showDocuments() {
+        const modal = document.getElementById('documentsModal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+
+    // Загрузка новостей
+    async loadMoreNews() {
+        if (this.newsLoaded) return;
+        
+        const newsContainer = document.querySelector('.news-grid');
+        if (!newsContainer) return;
+        
+        // Здесь будет загрузка с сервера
+        // Временно добавляем демо-новости
+        const demoNews = [
+            {
+                date: '15.10.2023',
+                category: 'Олимпиада',
+                title: 'Всероссийская олимпиада школьников',
+                excerpt: 'Стартует школьный этап всероссийской олимпиады по всем предметам.',
+                link: '#'
+            },
+            {
+                date: '12.10.2023',
+                category: 'Искусство',
+                title: 'Конкурс художественного творчества',
+                excerpt: 'Приглашаем учащихся принять участие в городском конкурсе рисунков.',
+                link: '#'
+            },
+            {
+                date: '10.10.2023',
+                category: 'Наука',
+                title: 'Экскурсия в университет',
+                excerpt: 'Ученики 10-11 классов посетили лаборатории ЧелГУ.',
+                link: '#'
+            }
+        ];
+        
+        demoNews.forEach(news => {
+            const newsCard = document.createElement('article');
+            newsCard.className = 'news-card';
+            newsCard.innerHTML = `
+                <div class="news-date">${news.date}</div>
+                <div class="news-category">${news.category}</div>
+                <h3 class="news-title">${news.title}</h3>
+                <p class="news-excerpt">${news.excerpt}</p>
+                <a href="${news.link}" class="news-link">Подробнее <i class="fas fa-arrow-right"></i></a>
+            `;
+            newsContainer.appendChild(newsCard);
+        });
+        
+        this.newsLoaded = true;
+        this.showNotification('Загружены дополнительные новости', 'info');
+    }
+
+    // Плавный скролл
+    setupScroll() {
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            if (data.success) {
-                localStorage.setItem('adminToken', data.token);
-                this.showAdminContent();
+            // Скрытие/показ шапки
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.style.transform = 'translateY(-100%)';
             } else {
-                alert('Неверные учетные данные');
+                header.style.transform = 'translateY(0)';
             }
-        } catch (error) {
-            console.error('Ошибка авторизации:', error);
-            alert('Ошибка соединения с сервером');
-        }
-    }
-
-    showAdminContent() {
-        document.getElementById('adminLogin').style.display = 'none';
-        document.getElementById('adminContent').style.display = 'block';
-    }
-
-    showAddNews() {
-        document.getElementById('addNewsModal').style.display = 'block';
-    }
-
-    async saveNews() {
-        const title = document.getElementById('newsTitle').value;
-        const content = document.getElementById('newsContent').value;
-        const category = document.getElementById('newsCategory').value;
-
-        if (!title || !content) {
-            alert('Заполните все обязательные поля');
-            return;
-        }
-
-        try {
-            const response = await fetch(`${this.apiBase}/news`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, content, category })
-            });
-
-            const data = await response.json();
             
-            if (data.success) {
-                alert('Новость успешно добавлена');
-                this.closeModal('addNewsModal');
-                this.loadNews(); // Обновляем список новостей
+            lastScrollTop = scrollTop;
+            
+            // Подсветка активного раздела
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Расписание
+    setupSchedule() {
+        // Можно добавить динамическую загрузку расписания по классам
+        console.log('Модуль расписания инициализирован');
+    }
+
+    // Уведомления
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            </div>
+            <button class="notification-close">&times;</button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Анимация появления
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        // Закрытие
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+        
+        // Автозакрытие
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
             }
-        } catch (error) {
-            console.error('Ошибка сохранения новости:', error);
-            alert('Ошибка сохранения новости');
+        }, 5000);
+        
+        // Стили для уведомлений
+        if (!document.querySelector('#notification-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notification-styles';
+            style.textContent = `
+                .notification {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: white;
+                    border-radius: 12px;
+                    padding: 16px 24px;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 16px;
+                    max-width: 400px;
+                    transform: translateX(150%);
+                    transition: transform 0.3s ease;
+                    z-index: 3000;
+                    border-left: 4px solid #2563eb;
+                }
+                
+                .notification.show {
+                    transform: translateX(0);
+                }
+                
+                .notification-success {
+                    border-left-color: #10b981;
+                }
+                
+                .notification-info {
+                    border-left-color: #3b82f6;
+                }
+                
+                .notification-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                
+                .notification-content i {
+                    font-size: 20px;
+                    color: inherit;
+                }
+                
+                .notification-close {
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    color: #6b7280;
+                    cursor: pointer;
+                    padding: 4px;
+                    border-radius: 6px;
+                }
+                
+                .notification-close:hover {
+                    background: #f3f4f6;
+                    color: #1f2937;
+                }
+            `;
+            document.head.appendChild(style);
         }
     }
 
-    closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    scrollToSection(sectionId) {
-        const element = document.getElementById(`${sectionId}-section`);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
+    // Дата и время
     updateDateTime() {
         const now = new Date();
         const options = { 
@@ -245,23 +375,33 @@ class LyceumWebsite {
         // Добавляем дату в футер
         const dateElement = document.createElement('div');
         dateElement.className = 'current-date';
-        dateElement.textContent = `Текущая дата: ${dateTimeStr}`;
+        dateElement.textContent = `Сегодня: ${dateTimeStr}`;
+        dateElement.style.cssText = `
+            text-align: center;
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        `;
         
         const footerBottom = document.querySelector('.footer-bottom');
         if (footerBottom) {
-            footerBottom.prepend(dateElement);
+            footerBottom.appendChild(dateElement);
         }
     }
 
-    // Вспомогательные функции для внешних ссылок
+    // Внешние ссылки
     static openExternalLink(url) {
-        window.open(url, '_blank');
+        window.open(url, '_blank', 'noopener,noreferrer');
     }
 
+    // Печать страницы
     static printPage() {
         window.print();
     }
 
+    // Поделиться
     static sharePage() {
         if (navigator.share) {
             navigator.share({
@@ -270,7 +410,8 @@ class LyceumWebsite {
                 url: window.location.href
             });
         } else {
-            alert('Поделиться можно через кнопки социальных сетей');
+            // Альтернатива для браузеров без поддержки Web Share API
+            prompt('Скопируйте ссылку:', window.location.href);
         }
     }
 }
@@ -279,19 +420,27 @@ class LyceumWebsite {
 document.addEventListener('DOMContentLoaded', () => {
     window.lyceumSite = new LyceumWebsite();
     
-    // Добавляем глобальные функции для кнопок
-    window.openSchedule = () => {
-        window.open('https://dnevnik.ru', '_blank');
-    };
+    // Глобальные функции для кнопок
+    window.openSchedule = () => LyceumWebsite.openExternalLink('https://dnevnik.ru');
+    window.openMap = () => LyceumWebsite.openExternalLink('https://yandex.ru/maps/56/chelyabinsk/?text=ул. Чичерина, 27А');
+    window.shareSite = () => LyceumWebsite.sharePage();
+    window.printSite = () => LyceumWebsite.printPage();
     
-    window.openContacts = () => {
-        document.querySelector('[href="#contacts"]').click();
-    };
+    // Анимация при загрузке
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.3s ease';
     
-    window.searchSite = () => {
-        const query = prompt('Введите поисковый запрос:');
-        if (query) {
-            alert(`Поиск по запросу: ${query}\n\nВ реальном сайте здесь будет поисковая система.`);
-        }
-    };
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+    
+    // Отслеживание ошибок
+    window.addEventListener('error', (e) => {
+        console.error('Ошибка на сайте:', e.error);
+    });
 });
+
+// Полифиллы для старых браузеров
+if (!NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+}
